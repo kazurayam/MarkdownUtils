@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.kazurayam.markdownutil.TranslateTOCTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-04-14T04:08:31" hostname="KAZUAKInoMacBook-Air-2.local" time="0.027">
+<testsuite name="com.kazurayam.markdownutil.TranslateTOCTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-04-14T05:29:25" hostname="KAZUAKInoMacBook-Air-2.local" time="0.047">
   <properties/>
-  <testcase name="test_translateDocument()" classname="com.kazurayam.markdownutil.TranslateTOCTest" time="0.027"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="test_translateDocument_overwrite_file()" classname="com.kazurayam.markdownutil.TranslateTOCTest" time="0.047"/>
+  <system-out><![CDATA[relativePath=build/tmp/testOutput/com.kazurayam.markdownutil.TranslateTOCTest/test_translateDocument_overwrite_file/README.md
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
