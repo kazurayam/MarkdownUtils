@@ -1,9 +1,0 @@
--locale 'en_US'
--classpath '/Users/kazuakiurayama/github/MarkdownUtils/build/classes/java/main:/Users/kazuakiurayama/github/MarkdownUtils/build/resources/main:/Users/kazuakiurayama/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-simple/1.7.25/8dacf9514f0c707cbbcdd6fd699e8940d42fb54e/slf4j-simple-1.7.25.jar:/Users/kazuakiurayama/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.25/da76ca59f6a57ee3102f8f9bd9cee742973efa8a/slf4j-api-1.7.25.jar'
--d '/Users/kazuakiurayama/github/MarkdownUtils/build/docs/javadoc'
--doctitle 'MarkdownUtils 0.1.0-SNAPSHOT API'
--encoding 'UTF-8'
--notimestamp 
--quiet 
--windowtitle 'MarkdownUtils 0.1.0-SNAPSHOT API'
-'/Users/kazuakiurayama/github/MarkdownUtils/src/main/java/com/kazurayam/markdownutils/PandocMarkdownTranslator.java'
