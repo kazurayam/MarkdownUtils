@@ -1,12 +1,22 @@
 plugins {
     id 'java'
+    id 'maven-publish'
+    id 'signing'
 }
 
 group 'com.kazurayam'
 version '0.1.0-SNAPSHOT'
 
+ext.isReleaseVersion = ! version.endsWith("SNAPSHOT")
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+def defaultEncoding = 'UTF-8'
+tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
+
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -17,12 +27,88 @@ dependencies {
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:unchecked'
+}
+
 test {
     useJUnitPlatform()
 }
 
+javadoc {
+    options.encoding = 'UTF-8'
+    options.locale = "en_US"
+}
+
+task copyJavadoc(type:Copy) {
+    from 'build/docs/javadoc'
+    into 'docs/api'
+}
+javadoc.finalizedBy copyJavadoc
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
 jar {
     manifest {
-        attributes 'Main-Class': 'com.kazurayam.markdownutils.TranslateTOC'
+        attributes 'Main-Class': 'com.kazurayam.markdownutils.PandocMarkdownTranslator'
     }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                groupId = project.group
+                name = project.rootProject.name
+                description = 'a java classes that translates Markdown files (README.md etc) into some other format'
+                url = 'https://kazurayam.github.io/MarkdownUtils/'
+                from components.java
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org.licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'kazurayam'
+                        name = 'URAYAMA,kazuaki'
+                        email = 'kazuaki.urayama@gmail.com'
+                    }
+                }
+                scm {
+                    connection = "scm:git:https://github.com/kazurayam/${project.rootProject.name}.git"
+                    developerConnection = "scm:git:git@github.com:kazurayam/${project.rootProject.name}.git"
+                    url = "https://github.com/kazurayam/${project.rootProject.name}"
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            url = isReleaseVersion ? releaseRepo: snapshotRepo
+            credentials {
+                username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
+                password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
+            }
+        }
+    }
+}
+
+
+signing {
+    sign publishing.publications.mavenJava
+}
+// I do not want to sign the SNAPSHOT
+tasks.withType(Sign) {
+    onlyIf { isReleaseVersion }
 }

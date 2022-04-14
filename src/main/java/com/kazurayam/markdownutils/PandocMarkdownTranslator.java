@@ -31,9 +31,6 @@ public class PandocMarkdownTranslator {
         cwd = Paths.get(System.getProperty("user.dir"));
     }
 
-    /**
-     *
-     */
     public static void main(String[] args) throws IOException {
         PandocMarkdownTranslator translator = new PandocMarkdownTranslator();
         if (args.length == 1) {
