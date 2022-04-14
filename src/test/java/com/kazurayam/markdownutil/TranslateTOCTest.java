@@ -35,12 +35,12 @@ public class TranslateTOCTest {
                     .resolve(TranslateTOCTest.class.getName());
 
     @Test
-    public void test_translateDocument_noOverwrite() throws Exception {
+    public void test_translateDocument() throws Exception {
         Path sample = fixtureDir.resolve("README.md");
         Reader reader = new InputStreamReader(
                         new FileInputStream(sample.toFile()), StandardCharsets.UTF_8);
         Writer writer = new StringWriter();
-        TranslateTOC.translateDocument(reader, writer);
+        TranslateTOC.translateFile(reader, writer);
         writer.close();
         //System.out.println(writer.toString());
         String content = writer.toString();
@@ -50,9 +50,9 @@ public class TranslateTOCTest {
                 "the content does not contain a string \"#_bar_baz\"");
     }
     @Test
-    public void test_translateDocument_overwrite_file() throws Exception {
+    public void test_translateFile() throws Exception {
         Path inputFile = fixtureDir.resolve("README.md");
-        Path dir = classOutputDir.resolve("test_translateDocument_overwrite_file");
+        Path dir = classOutputDir.resolve("test_translateFile");
         Files.createDirectories(dir);
         Path workFile = dir.resolve("README.md");
         Files.copy(inputFile, workFile, StandardCopyOption.REPLACE_EXISTING);
@@ -64,12 +64,27 @@ public class TranslateTOCTest {
         String relativePath = projectDir.relativize(workFile).toString();
         //System.out.println("relativePath=" + relativePath);
         assertTrue(relativePath.startsWith("build/tmp"), "relativePath=" + relativePath);
-        TranslateTOC.translateDocument(relativePath);
+        TranslateTOC.translateFile(relativePath);
         //
         content = readAllLines(workFile);
         assertFalse(content.contains("(#_my_document)"), "found unexpected #_my_document");
         assertTrue(content.contains("#my-document)"));
         assertTrue(content.contains("(#_bar_baz)"));
+    }
+
+    @Test
+    public void test_main() throws Exception {
+        Path inputFile = fixtureDir.resolve("README.md");
+        Path dir = classOutputDir.resolve("test_main");
+        Files.createDirectories(dir);
+        Path workFile = dir.resolve("README.md");
+        Files.copy(inputFile, workFile, StandardCopyOption.REPLACE_EXISTING);
+        String relativePath = projectDir.relativize(workFile).toString();
+        //
+        TranslateTOC.main(new String[] { relativePath });
+        //
+        String content = readAllLines(workFile);
+        assertTrue(content.contains("#my-document)"));
     }
 
     private String readAllLines(Path p) throws IOException {

@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -69,7 +68,7 @@ public class TranslateTOC {
         }
     }
 
-    public static void translateDocument(Reader reader, Writer writer) throws IOException {
+    public static void translateFile(Reader reader, Writer writer) throws IOException {
         Objects.requireNonNull(reader);
         Objects.requireNonNull(writer);
         BufferedReader br = new BufferedReader(reader);
@@ -90,7 +89,7 @@ public class TranslateTOC {
         pw.flush();
     }
 
-    public static void translateDocument(String filePath) throws IOException {
+    public static void translateFile(String filePath) throws IOException {
         Path cwd = Paths.get(System.getProperty("user.dir"));
         Path input = cwd.resolve(filePath);
         if (!Files.exists(input)) {
@@ -102,7 +101,7 @@ public class TranslateTOC {
         Writer writer = new OutputStreamWriter(
                 new FileOutputStream(tempFile.toFile()), StandardCharsets.UTF_8);
         // translate the input into the temporary file
-        TranslateTOC.translateDocument(reader, writer);
+        TranslateTOC.translateFile(reader, writer);
         reader.close();
         writer.flush();
         writer.close();
@@ -117,6 +116,11 @@ public class TranslateTOC {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-
+        if (args.length != 1) {
+            System.out.println("Usage: java -jar markdownutils-x.x.x.jar file.md");
+            System.exit(1);
+        }
+        String filePath = args[0];
+        TranslateTOC.translateFile(filePath);
     }
 }
