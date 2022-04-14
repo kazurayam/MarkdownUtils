@@ -1,4 +1,4 @@
-package com.kazurayam.markdownutil;
+package com.kazurayam.markdownutils;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

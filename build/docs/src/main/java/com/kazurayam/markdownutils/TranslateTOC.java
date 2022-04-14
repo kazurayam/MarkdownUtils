@@ -1,4 +1,4 @@
-package com.kazurayam.markdownutil;
+package com.kazurayam.markdownutils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
