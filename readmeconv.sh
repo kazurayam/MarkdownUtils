@@ -52,4 +52,4 @@ find . -iname "readme*.md" -not -name "README.md" -type f -maxdepth 1 | while re
 done
 
 # translate README.md into temp.md
-java -jar build/libs/MarkdownUtils-0.1.0-SNAPSHOT.jar ./README.md ./temp.md
+java -jar build/libs/MarkdownUtils-0.1.0.jar ./README.md ./temp.md

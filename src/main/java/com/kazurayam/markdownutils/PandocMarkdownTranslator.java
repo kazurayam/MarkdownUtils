@@ -2,9 +2,7 @@ package com.kazurayam.markdownutils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -61,22 +59,26 @@ public class PandocMarkdownTranslator {
 
     public void translateFile(String filePath) throws IOException {
         Objects.requireNonNull(filePath);
-        Path input = cwd.resolve(filePath);
-        if (!Files.exists(input)) {
-            throw new FileNotFoundException(input + " is not found");
+        Path target = cwd.resolve(filePath);
+        if (!Files.exists(target)) {
+            throw new FileNotFoundException(target + " is not found");
         }
+        this.translateFile(target);
+    }
+
+    public void translateFile(Path target) throws IOException {
         Path tempFile = Files.createTempFile(PandocMarkdownTranslator.class.getSimpleName(), "");
         // translate the input into the temporary file
-        this.translateFile(input, tempFile);
+        this.translateFile(target, tempFile);
         // copy the translated text over the original
-        Files.copy(tempFile, input, StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(tempFile, target, StandardCopyOption.REPLACE_EXISTING);
     }
 
     public void translateFile(Path input, Path output) throws IOException {
         Reader reader = new InputStreamReader(
-                new FileInputStream(input.toFile()), StandardCharsets.UTF_8);
+                Files.newInputStream(input.toFile().toPath()), StandardCharsets.UTF_8);
         Writer writer = new OutputStreamWriter(
-                new FileOutputStream(output.toFile()), StandardCharsets.UTF_8);
+                Files.newOutputStream(output.toFile().toPath()), StandardCharsets.UTF_8);
         this.translateContent(reader, writer);
         reader.close();
         writer.flush();
@@ -122,27 +124,71 @@ public class PandocMarkdownTranslator {
      * @param line a line from README.md file
      */
     String translateTocLink(String line) {
-        Matcher m = pattern.matcher(line);
-        if (m.matches()) {
-            return m.group(1) + "(#" + m.group(2).replace("_", "-") + ")";
+        Matcher m1 = PATTERN_AS_MD.matcher(line);
+        if (m1.matches()) {
+            return m1.group(1) + "(#" + m1.group(2).replace("_", "-") + ")";
         } else {
-            return line;
+            Matcher m2 = PATTERN_AS_HTML_ANCHOR.matcher(line);
+            if (m2.matches()) {
+                // " - <a href=\"#" ==  m2.group(1)
+                // "_foo_bar" == m2.group(2)
+                // "\" id=\"toc-" == m.group(3)
+                // "_foo_bar" == m.group(4)
+                // "\">baz</a>" == m.group(5)
+                StringBuilder sb = new StringBuilder();
+                sb.append(m2.group(1));
+                sb.append(underline2hyphen(m2.group(2)));
+                sb.append(m2.group(3));
+                sb.append(underline2hyphen(m2.group(4)));
+                sb.append(m2.group(5));
+                return sb.toString();
+            } else {
+                return line;
+            }
+        }
+    }
+
+    /*
+     * "_foo_bar" -> "foo-bar"
+     */
+    static final String underline2hyphen(String s) {
+        if (s.startsWith("_")) {
+            return s.substring(1).replaceAll("_", "-");
+        } else {
+            return s.replaceAll("_", "-");
         }
     }
 
     static final String PTN_LEAD = "\\s*-\\s+";
-    static final String PTN_TITLE = "[^\\]]*";
-    static final String PTN_HEADER = "(" + PTN_LEAD + "\\[" + PTN_TITLE + "\\]" + ")";
-    static final String PTN_LINK_PREFIX = "#_";
-    static final String PTN_ID = "[^\\)]*";
-    static final String PTN_LINK = "\\(" + PTN_LINK_PREFIX + "(" + PTN_ID + ")" + "\\)";
+    static final String PTN_MD_LABEL = "[^]]*";
+    static final String PTN_MD_HEADER = "(" + PTN_LEAD + "\\[" + PTN_MD_LABEL + "]" + ")";
+    static final String PTN_MD_ID = "[^)]*";
+    static final String PTN_MD_LINK = "\\(#_(" + PTN_MD_ID + ")\\)";
+
     /**
      * a Regular Expression that matches a string like
      * <PRE>
      * -    [foo](#_bar_baz)
      * </PRE>
      */
-    public static final String PTN_TOC_LINE = "^" + PTN_HEADER + PTN_LINK + "$";
-    private static final Pattern pattern = Pattern.compile(PTN_TOC_LINE);
+    static final Pattern PATTERN_AS_MD =
+            Pattern.compile("^" + PTN_MD_HEADER + PTN_MD_LINK + "$");
 
+
+    /*
+     * a Regular Expression that matches a string line, such as
+     * <PRE>
+     *     - <a href="#_foo_bar" id="toc-_foo_bar">baz</a>
+     * </PRE>
+     *
+     * This pattern will be used to translate the string into
+     * <PRE>
+     *     - <a href="#foo-bar" id="toc-foo-bar">baz</a>
+     * </PRE>
+     */
+    static final String PTN_VAL = "[^\\\"]+";
+
+    static final Pattern PATTERN_AS_HTML_ANCHOR =
+            Pattern.compile("^(" + PTN_LEAD + "<a href=\"#" + ")(" + PTN_VAL +
+                    ")(\"" + "\\s+" + "id=\"toc-" + ")(" + PTN_VAL + ")(\".+)$");
 }

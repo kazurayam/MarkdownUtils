@@ -1,6 +1,6 @@
--   [MarkdownUtils](#markdownutils)
-    -   [com.kazurayam.markdownutils.PandocMarkdownTranslator](#com-kazurayam-markdownutils-pandocmarkdowntranslator)
-        -   [Problem to solve](#problem-to-solve)
+-   <a href="#_markdownutils" id="toc-_markdownutils">MarkdownUtils</a>
+    -   <a href="#_com_kazurayam_markdownutils_pandocmarkdowntranslator" id="toc-_com_kazurayam_markdownutils_pandocmarkdowntranslator">com.kazurayam.markdownutils.PandocMarkdownTranslator</a>
+        -   <a href="#_problem_to_solve" id="toc-_problem_to_solve">Problem to solve</a>
 
 # MarkdownUtils
 
@@ -26,6 +26,13 @@ the following "Table of Contents" section.
 
 When I push this README.md up to GitHub, the link from TOC
 to the body sections does not work. The links are broken.
+
+What do I mean "the links are broken"? If you open <https://github.com/kazurayam/MarkdownUtils/> using
+any web browser and view the HTML source, you will find a section:
+
+            <a href="#_problem_to_solve">Problem to solve</a>
+
+and also you will find a sction:
 
 I will execute the follwoing command:
 
