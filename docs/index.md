@@ -1,18 +1,41 @@
--   <a href="#_markdownutils" id="toc-_markdownutils">MarkdownUtils</a>
-    -   <a href="#_com_kazurayam_markdownutils_pandocmarkdowntranslator" id="toc-_com_kazurayam_markdownutils_pandocmarkdowntranslator">com.kazurayam.markdownutils.PandocMarkdownTranslator</a>
-        -   <a href="#_problem_to_solve" id="toc-_problem_to_solve">Problem to solve</a>
+-   <a href="#authoring-documents-in-asciidoc-to-generate-github-flavored-markdown" id="toc-authoring-documents-in-asciidoc-to-generate-github-flavored-markdown">Authoring documents in AsciiDoc to generate GitHub Flavored Markdown</a>
+    -   <a href="#publishdocs-a-custom-gradle-task" id="toc-publishdocs-a-custom-gradle-task">"publishdocs" --- a custom Gradle task</a>
+    -   <a href="#indexconv-sh" id="toc-indexconv-sh">indexconv.sh</a>
+    -   <a href="#markdownutil" id="toc-markdownutil">MarkdownUtil</a>
+        -   <a href="#problem-to-solve" id="toc-problem-to-solve">Problem to solve</a>
 
-# MarkdownUtils
+# Authoring documents in AsciiDoc to generate GitHub Flavored Markdown
 
-## com.kazurayam.markdownutils.PandocMarkdownTranslator
+## "publishdocs" --- a custom Gradle task
+
+    $ cd MarkdownUtils
+    $ gradle publishdocs
+
+This single line is equivalent to the following operation in the command line:
+
+    ---
+    $ cd MarkdownUtils
+    $ cd docs
+    $ ./indexconv.sh -t
+    $ cd ..
+    $ git add .
+    $ git commit -m "update docs"
+    $ git push
+    ---
+
+## indexconv.sh
+
+TO BE AUTHORED
+
+## MarkdownUtil
 
 ### Problem to solve
 
-The `README_.adoc` is orighinally authored in Asciidoc.
+The `index_.adoc` is originally authored in AsciiDoc.
 I will execute the following command.
 
-    $ cd $MarkdownUtils
-    $ ./readmeconv.sh -t
+    $ cd docs
+    $ ./indexconv.sh -t
 
 The `readmeconv.sh` will generate `README.md` file. It will have
 the following "Table of Contents" section.
