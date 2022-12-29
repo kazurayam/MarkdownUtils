@@ -113,3 +113,25 @@ signing {
 tasks.withType(Sign) {
     onlyIf { isReleaseVersion }
 }
+
+
+task publishdocs {
+    doLast {
+        exec {
+            workingDir './docs'
+            commandLine './indexconv.sh', '-t'
+        }
+        exec {
+            workingDir '.'
+            commandLine 'git', 'add', 'docs/'
+        }
+        exec {
+            workingDir '.'
+            commandLine 'git', 'commit', '-m', 'update the docs/'
+        }
+        exec {
+            workingDir '.'
+            commandLine 'git', 'push'
+        }
+    }
+}
