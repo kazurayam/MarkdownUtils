@@ -72,6 +72,6 @@ function processFile() {
 
 
 # iterate over all *.adoc files
-find . -iname "*.adoc" -type f -maxdepth 1 -not -name "_*.adoc" | while read fname; do
+find . -iname "*_.adoc" -type f -maxdepth 1 -not -name "_*.adoc" | while read fname; do
   processFile $fname
 done
