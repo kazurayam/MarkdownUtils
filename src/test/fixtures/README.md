@@ -11,4 +11,14 @@ Rainy today.
     - [foo](#_bar_baz)
 ```
 
+## Special characters
+
+### underbar_matters
+
+### dot.matters
+
+### hyphen-matters
+
+### slash/matters
+
 

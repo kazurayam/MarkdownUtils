@@ -171,12 +171,6 @@ public class PandocMarkdownTranslatorTest {
     }
 
     @Test
-    public void test_underline2hyphen() {
-        assertEquals("foo-bar", PandocMarkdownTranslator.underline2hyphen("_foo_bar"));
-        assertEquals("foo-bar", PandocMarkdownTranslator.underline2hyphen("foo_bar"));
-    }
-
-    @Test
     public void test_translateREADME_TOC_as_anchor() throws Exception {
         Path input = fixturesDir.resolve("README_TOC_as_anchor.md");
         Path dir = testClassOutputDir.resolve("test_translateREADME_TOC_as_anchor");
