@@ -51,7 +51,7 @@ generate a new file `temp.md`, which will have the following section:
     ...
 
 Please find the link symbols are slightly amended.
-The amended link symbols conforms to GitHub Flavoured Mardown spec.
+The amended link symbols conforms to GitHub Flavoured Markdown spec.
 When `temp.md` is pushed to GitHub, the links in TOC to text body will work.
 
 The `PandocMarkdownTranslator` does this small patching over Markdown texts

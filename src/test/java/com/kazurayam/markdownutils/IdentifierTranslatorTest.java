@@ -16,25 +16,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class IdentifierTranslatorTest {
 
     private static Path fixturesDir;
-    private static Path dataDir;
+    private static Path docsDir;
     private static String JAR_VERSION = "0.2.0";
 
     @BeforeAll
     public static void beforeAll() throws IOException, InterruptedException {
         fixturesDir = Paths.get("src/test/fixtures");
-        dataDir = fixturesDir.resolve(IdentifierTranslatorTest.class.getSimpleName());
-        Path index = dataDir.resolve("index_.adoc");
+        docsDir = Paths.get("docs");
+        Path index = docsDir.resolve("IdentifierTranslatorTest_.adoc");
+        /*
         FileUtils.copyFile(
                 Paths.get(String.format("build/libs/MarkdownUtils-%s.jar", JAR_VERSION)).toFile(),
-                dataDir.resolve(String.format("MarkdownUtils-%s.jar", JAR_VERSION)).toFile()
+                docsDir.resolve(String.format("MarkdownUtils-%s.jar", JAR_VERSION)).toFile()
         );
-        FileUtils.copyFile(
-                Paths.get("docs/indexconv.sh").toFile(),
-                dataDir.resolve("indexconv.sh").toFile()
-        );
+         */
         Subprocess.CompletedProcess cp;
         cp = new Subprocess()
-                .cwd(dataDir.toFile())
+                .cwd(docsDir.toFile())
                 .run(Arrays.asList("./indexconv.sh", "-t"));
     }
 

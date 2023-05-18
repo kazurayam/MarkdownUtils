@@ -1,8 +1,8 @@
--   <a href="#authoring-documents-in-asciidoc-to-generate-github-flavored-markdown" id="toc-authoring-documents-in-asciidoc-to-generate-github-flavored-markdown">Authoring documents in AsciiDoc to generate GitHub Flavored Markdown</a>
-    -   <a href="#publishdocs-a-custom-gradle-task" id="toc-publishdocs-a-custom-gradle-task">"publishdocs" --- a custom Gradle task</a>
-    -   <a href="#indexconv-sh" id="toc-indexconv-sh">indexconv.sh</a>
-    -   <a href="#markdownutil" id="toc-markdownutil">MarkdownUtil</a>
-        -   <a href="#problem-to-solve" id="toc-problem-to-solve">Problem to solve</a>
+-   [Authoring documents in AsciiDoc to generate GitHub Flavored Markdown](#authoring-documents-in-asciidoc-to-generate-github-flavored-markdown)
+    -   ["publishdocs" --- a custom Gradle task](#publishdocs-a-custom-gradle-task)
+    -   [indexconv.sh](#indexconv-sh)
+    -   [MarkdownUtil](#markdownutil)
+        -   [Problem to solve](#problem-to-solve)
 
 # Authoring documents in AsciiDoc to generate GitHub Flavored Markdown
 
