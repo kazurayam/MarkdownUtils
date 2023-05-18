@@ -1,0 +1,6 @@
+= IdentifierTranslaterTest
+
+== issue3 Asciidoc & Markdown
+
+Ampersand character (&) matters.
+
