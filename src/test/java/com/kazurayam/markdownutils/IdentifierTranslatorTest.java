@@ -13,6 +13,9 @@ import java.util.Arrays;
 import org.apache.commons.io.FileUtils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * https://kazurayam.github.io/MarkdownUtils/IdentifierTranslatorTest.md
+ */
 public class IdentifierTranslatorTest {
 
     private static Path fixturesDir;
