@@ -20,15 +20,18 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.slf4j:slf4j-api:1.7.25'
-    implementation 'org.slf4j:slf4j-simple:1.7.25'
+    implementation libs.slf4j.api
+    testImplementation libs.slf4j.simple
 
-    testImplementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+    testImplementation libs.commonsio
     // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
-    testImplementation group: 'com.kazurayam', name: 'subprocessj', version: '0.3.6'
+    testImplementation libs.subprocessj
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation libs.junit.jupiter.api
+    testRuntimeOnly libs.junit.jupiter.engine
+
+    testImplementation libs.seleniumjava
+    testImplementation libs.webdrivermanager
 }
 
 tasks.withType(JavaCompile) {
