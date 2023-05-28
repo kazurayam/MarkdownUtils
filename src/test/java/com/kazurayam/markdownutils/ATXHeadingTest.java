@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * https://kazurayam.github.io/MarkdownUtils/ATXHeadingTest.md
  */
 public class ATXHeadingTest {
-    String url = "https://kazurayam.github.io/MarkdownUtils/ATXHeadingTest.md";
+    String url = "https://kazurayam.github.io/MarkdownUtils";
 
     private WebDriver driver;
     private static final int timeout = 500;
@@ -43,9 +43,11 @@ public class ATXHeadingTest {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
+        options.addArguments("remote-allow-origin=*");
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.MILLISECONDS);
-        driver.manage().window().setSize(new Dimension(800, 800));
+        driver.manage().window().setSize(new Dimension(1000, 800));
+        driver.navigate().to(url);
     }
 
     @AfterEach
@@ -56,11 +58,13 @@ public class ATXHeadingTest {
     }
 
     @Test
-    public void test_simple() {
-        driver.navigate().to(url);
-        By by = By.xpath("//main//section//article//h2/a[contains(text(), 'The simplest case')]");
-        WebElement anchor = driver.findElement(by);
-        assertNotNull(anchor);
+    public void test_simplest() {
+        String content = "The simplest case";
+        By by = By.xpath("//h3[contains(text(), content)]");
+        WebElement heading = driver.findElement(by);
+        assertNotNull(heading);
+        String derivedId = ATXHeadingId.of(heading.getText());
+        String expectedId = heading.getAttribute("id");
+        assertEquals(expectedId, derivedId);
     }
-
 }
