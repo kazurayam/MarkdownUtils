@@ -1,15 +1,10 @@
 package com.kazurayam.markdownutils;
 
-import com.kazurayam.subprocessj.Subprocess;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -24,9 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * https://kazurayam.github.io/MarkdownUtils/ATXHeadingTest.md
  */
-public class ATXHeadingTest {
+public class ATXHeadingIdTest {
     String url = "https://kazurayam.github.io/MarkdownUtils";
 
     private WebDriver driver;
@@ -57,14 +51,62 @@ public class ATXHeadingTest {
         }
     }
 
-    @Test
-    public void test_simplest() {
-        String content = "The simplest case";
-        By by = By.xpath("//h3[contains(text(), content)]");
+    private void testBody(By by) {
         WebElement heading = driver.findElement(by);
         assertNotNull(heading);
-        String derivedId = ATXHeadingId.of(heading.getText());
-        String expectedId = heading.getAttribute("id");
-        assertEquals(expectedId, derivedId);
+        String derived = ATXHeadingId.of(heading.getText());
+        String expected = heading.getAttribute("id");
+        System.out.println("derived=" + derived + ", expected=" + expected);
+        assertEquals(expected, derived);
     }
+
+    @Test
+    public void test_simplest() {
+        By by = By.xpath("//h3[contains(text(), 'The simplest case')]");
+        testBody(by);
+    }
+
+    @Test
+    public void test_ampersand() {
+        By by = By.xpath("//h3[contains(text(), 'issue3 Asciidoc & Markdown')]");
+        testBody(by);
+    }
+
+    @Test
+    public void test_underbar() {
+        By by = By.xpath("//h3[contains(text(), 'issue8 Under bar _ character')]");
+        testBody(by);
+    }
+
+    @Test
+    public void test_parentheses() {
+        By by = By.xpath("//h3[contains(text(), 'Parentheses ( and ) characters')]");
+        testBody(by);
+    }
+
+    @Test
+    public void test_dot() {
+        By by = By.xpath("//h3[contains(text(), 'issue12 Dot . character')]");
+        testBody(by);
+    }
+
+    @Test
+    public void test_hyphen() {
+        By by = By.xpath("//h3[contains(text(), 'issue13 Hyphen - character')]");
+        testBody(by);
+    }
+
+    @Test
+    public void test_slash() {
+        By by = By.xpath("//h3[contains(text(), 'issue14 Slash / character')]");
+        testBody(by);
+    }
+
+    @Test
+    public void test_colon() {
+        By by = By.xpath("//h3[contains(text(), 'issue15 Colon : character')]");
+        testBody(by);
+    }
+
+
 }
