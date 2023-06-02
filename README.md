@@ -1,6 +1,9 @@
--   <a href="#_markdownutils" id="toc-_markdownutils">MarkdownUtils</a>
-    -   <a href="#_com_kazurayam_markdownutils_pandocmarkdowntranslator" id="toc-_com_kazurayam_markdownutils_pandocmarkdowntranslator">com.kazurayam.markdownutils.PandocMarkdownTranslator</a>
-        -   <a href="#_problem_to_solve" id="toc-_problem_to_solve">Problem to solve</a>
+I have got an alternative solution:
+
+- https://github.com/kazurayam/adoc2md
+
+So I have abandoned this project "MarkdownUtils".
+
 
 # MarkdownUtils
 
